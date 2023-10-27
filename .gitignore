@@ -1,0 +1,10 @@
+.classpath
+.project
+.settings/
+bin/
+src/.DS_Store
+target/
+test-output/
+logs/
+poze/
+.DS_Store
