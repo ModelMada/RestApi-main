@@ -43,7 +43,7 @@ public class CrudExamples {
 	@Test(priority=1)
 	public void postAToDoMessage() {
 		//salvam callul intr-un obiect de tip response pt a putea apela la final valorile din response pt a le folosi in requesturile urmatoare
-		Response obj = given().
+		Response obj = given().			//in given punem preconditiile body authorization type etc
 			//.header("Content-Type","application/json")
 			contentType(ContentType.JSON).
 			body((requestBody.toJSONString())).
