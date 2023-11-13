@@ -3,6 +3,7 @@ import static io.restassured.RestAssured.given;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertNotEquals;
 
+import java.util.Arrays;
 import java.util.List;
 
 import static org.hamcrest.MatcherAssert.*;
@@ -12,6 +13,8 @@ import org.testng.annotations.Test;
 
 import io.restassured.path.json.JsonPath;
 import io.restassured.response.Response;
+import static utils.NumberChecker.*;
+import static utils.NumberIsPositive.*;
 
 public class HamcrestAssertionExample {
 	
@@ -112,9 +115,55 @@ public class HamcrestAssertionExample {
 		
 		assertThat(movies, both(hasSize(lessThan(6))).and(hasToString(containsString("films/6"))));
 
+		//CURS45//
+		System.out.println("------------------------");
+		String [] array = {jsnPath.getString("climate"),jsnPath.getString("terrain"),jsnPath.getString("diameter"),jsnPath.getString("gravity"),jsnPath.getString("name")};
+		System.out.println(array[0]);
 		
-
+		assertThat(array,is(not(emptyArray())));
+		assertThat(array,is(not(nullValue())));
 		
+		System.out.println(Arrays.toString(array));
+		
+		//genul asta de validare nu merge pe Arrays - contains
+		//pt array merge arrayContaining
+		//array cu ordinea fix din array -> trece assert
+		assertThat(array,arrayContaining("arid", "desert", "10465", "1 standard", "Tatooine"));
+		//array cu alta ordine fata de arrayul construit -> pica assert
+		//assertThat(array,arrayContaining("Tatooine", "desert", "10465", "1 standard", "arid"));
+		//array cu alta ordine fata de arrayul construit -> trece assertul cu arrayContainingInAnyOrder
+		assertThat(array,arrayContainingInAnyOrder("Tatooine", "desert", "10465", "1 standard", "arid"));
+		
+		
+		System.out.println(resp.asString());
+		assertThat(resp.asString(),containsStringIgnoringCase("ARID"));
+		assertThat(resp.asString(),stringContainsInOrder("name","rotation_period"));
+		
+		//and
+		assertThat(resp.asString(), both(containsString("Tatooine")).and(containsString("gravity")));
+		//or
+		assertThat(name, either(is("Tatooine")).or(is("Tatooine2")).or(is(not("Tatooine5"))));
+		
+		/*
+		"name": "Tatooine", 
+    	"rotation_period": "23", 
+    	"orbital_period": "304", 
+    	"diameter": "10465", 
+    	"climate": "arid", 
+    	"gravity": "1 standard", 
+    	"terrain": "desert", 
+    	"surface_water": "1", 
+    	"population": "200000", 
+		 */
+		String rotation = jsnPath.getString("rotation_period");
+		String climate = jsnPath.getString("climate");
+		String gravity = jsnPath.getString("gravity");
+		
+		assertThat(rotation, is(numbersOnly()));
+		assertThat(gravity,is(not(numbersOnly())));
+		
+		assertThat(Integer.parseInt(rotation),is(positiveNumber()));
+		assertThat(-7,is(positiveNumber()));
 	}
 	
 
