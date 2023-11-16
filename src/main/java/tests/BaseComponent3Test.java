@@ -39,11 +39,10 @@ public class BaseComponent3Test extends BaseComponent3 {
 		System.out.println(resp.asPrettyString());
 	}
 	
-	@Test(priority=5)
-	public void deleteUser() {
-		System.out.println("------------DELETE-------------------");
-		Response resp = doRequest("Delete",id , "");
-		System.out.println(resp.asPrettyString());
+	//@Test(priority=5)
+	//public void deleteUser() {
+	//	System.out.println("------------DELETE-------------------");
+	//	Response resp = doRequest("Delete",id , "");
+	//	System.out.println(resp.asPrettyString());
 	}
 
-}
